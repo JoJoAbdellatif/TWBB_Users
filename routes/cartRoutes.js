@@ -5,7 +5,7 @@ const User = require('../models/user')
 
 const cartRoute = express.Router();
 const request = require('request');
-const fetch = require('node-fetch');
+//const fetch = require('node-fetch');
 
 //create Cart for guest
 cartRoute.post('/createCart',asyncHandler(async(req,res) =>{
