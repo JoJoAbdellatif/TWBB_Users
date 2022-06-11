@@ -2,10 +2,9 @@ const express = require('express');
 const asyncHandler = require('express-async-handler')
 const cart = require('../models/cart')
 const User = require('../models/user')
-
 const cartRoute = express.Router();
-const request = require('request');
-//const fetch = require('node-fetch');
+const URLinventory = 'http://localhost:5000/api/product/';
+const axios = require('axios');
 
 //create Cart for guest
 cartRoute.post('/createCart',asyncHandler(async(req,res) =>{
@@ -72,7 +71,22 @@ cartRoute.delete('/emptyCart',asyncHandler(async(req,res) => {
 cartRoute.get('/:id',asyncHandler(async(req,res) => {
     const cartExist = await cart.findById({ _id:req.params.id});
     if(cartExist){
-        res.send(cartExist.Items)
+        const t = Object.assign(cartExist.Items)
+
+        var purchacelist=[];
+        for (let i = 0; i < t.length; i++) {
+            const price = await axios.get(URLinventory+"price/"+t[i].ProductId.toString())
+            const detail = await axios.get(URLinventory+"details/"+t[i].ProductId.toString())
+            const prPrice =Object.assign(price.data)
+            const prdetail =Object.assign(detail.data)
+
+            const obj = {'ProductID':t[i].ProductId.toString(),'ProductImage':prdetail.productImage,'ProductName':prdetail.productName,'Productprice':prPrice.productPrice,'Quantity':t[i].Quantity}
+
+            purchacelist.push(obj)
+          }
+
+        res.send(purchacelist)
+
     }else{
         throw new Error('This Cart Does Not Exist');
     }

@@ -4,13 +4,16 @@ const dotenv= require('dotenv');
 const userRoutes = require('./routes/userRoutes');
 const error = require("./middleware/errorMiddlewareHandler");
 const cartRoutes = require('./routes/cartRoutes');
+const cors = require('cors')
+
 
 const app = express();
 dotenv.config();
 require('./config/dbconnect')();
 
-
+app.use(cors({origin: true, credentials: true}));
 app.use(express.json());
+
 
 app.use('/api/users',userRoutes)
 app.use('/api/carts',cartRoutes)
