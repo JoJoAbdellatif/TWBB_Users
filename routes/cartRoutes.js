@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler')
 const cart = require('../models/cart')
 const User = require('../models/user')
 const cartRoute = express.Router();
-const URLinventory = 'http://localhost:5000/api/product/';
+const URLinventory = 'https://twbb-inventory.vercel.app/api/product/';
 const axios = require('axios');
 
 //create Cart for guest

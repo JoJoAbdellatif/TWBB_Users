@@ -6,7 +6,7 @@ const userRoute = express.Router();
 const generateToken = require("../utils/generateToken");
 const crypto = require('crypto')
 const axios = require('axios')
-const Url = 'http://localhost:4000/api/notify/'
+const Url = 'https://twbb-notifications.vercel.app/api/notify/'
 const bcrypt = require('bcryptjs');
 
 //Register Route
