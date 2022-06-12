@@ -87,17 +87,17 @@ userRoute.post('/login',asyncHandler(async(req,res) => {
 
 //Delete Route
 
-userRoute.delete('/:id',asyncHandler(async(req,res) => {
-    const userExist = await user.findOne({ _id:req.params.id});
-    
-    if(!userExist){
-        throw new Error('User does not exist');
+userRoute.delete('/:id',asyncHandler(async (req, res) => {
+    try {
+      const userExist = await user.findByIdAndDelete(req.params.id);
+      res.status(200);
+      res.send(userExist);
+    } catch (error) {
+      res.status(500);
+      throw new Error('Server Error');
     }
-    
-    user.findOneAndRemove(req.params.id)
-    .exec()
-    res.send('user deleted')
-}))
+  })
+);
 
 //Get profile
 userRoute.get('/profile/:id',asyncHandler(async(req,res) =>{
