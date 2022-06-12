@@ -18,9 +18,9 @@ userRoute.post('/register',asyncHandler(async(req,res) => {
     if(userExist){
         throw new Error('This Email Already has an account');
     }
-      
     const createUser = await user.create({First_Name,Last_Name,Email,Password,Phone_Number,Address:{City,District,StreetName,BuildingNo,Floor,ApartmentNo},AddressLink:{Latitude,Longitiude},isGuest:false,EmailToken:crypto.randomBytes(64).toString('hex'),isVerified:false})
     const createCart = await cart.create({UserId:createUser._id,Items:[]})
+    console.log(createUser.EmailToken);
     const url = Url+'register/?userEmail='+createUser.Email+'&userEmailToken='+createUser.EmailToken
     const items = await axios.get(url)
     res.json({
